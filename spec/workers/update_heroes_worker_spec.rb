@@ -2,17 +2,16 @@ require 'rails_helper'
 
 RSpec.describe UpdateHeroesWorker do
   context '#perform' do
-    let(:worker)        { UpdateHeroesWorker.new }
-    let(:dota_api)      { double(:dota_api)      }
-    let(:internal_name) { 'antimage'             }
+    let(:worker)    { UpdateHeroesWorker.new }
+    let(:dota_api)  { double(:dota_api)      }
+    let(:hero_name) { 'antimage'             }
 
     let(:heroes_response) do
       double(
         :hero,
-        internal_name: internal_name,
         id: 1,
         image_url: 'image-url',
-        name: 'AM')
+        name: hero_name)
     end
 
     before do
@@ -21,13 +20,12 @@ RSpec.describe UpdateHeroesWorker do
     end
 
     context 'when hero exists' do
-      let!(:hero) { create(:hero, internal_name: internal_name, name: 'bad-name', dota_id: 69) }
+      let!(:hero) { create(:hero, name: hero_name, dota_id: 69) }
 
       it 'creates a new hero' do
         worker.perform
         hero.reload
 
-        expect(hero.name).to eq 'AM'
         expect(hero.dota_id).to eq 1
       end
     end
