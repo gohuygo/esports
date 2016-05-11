@@ -21,8 +21,15 @@ RSpec.describe UpdateHeroesWorker do
     end
 
     context 'when hero exists' do
-      let!(:hero) { create(:hero, internal_name: internal_name, name: 'AM') }
+      let!(:hero) { create(:hero, internal_name: internal_name, name: 'bad-name', dota_id: 69) }
 
+      it 'creates a new hero' do
+        worker.perform
+        hero.reload
+
+        expect(hero.name).to eq 'AM'
+        expect(hero.dota_id).to eq 1
+      end
     end
 
     context 'when hero does not exist' do
