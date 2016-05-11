@@ -25,10 +25,11 @@ ActiveRecord::Schema.define(version: 20160511213518) do
   end
 
   create_table "players", force: :cascade do |t|
-    t.string   "name",       limit: 100, null: false
+    t.string   "handle_name", limit: 100, null: false
+    t.string   "real_name"
     t.integer  "steam_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
 end
